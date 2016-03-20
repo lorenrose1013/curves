@@ -3,10 +3,21 @@ from matrix import *
 import math
 
 def add_circle( points, cx, cy, cz, r, step ):
-    pass
-
+    t = 0
+    x0 = cx + r * math.sin( math.radians(t) )
+    y0 = cy + r * math.cos( math.radians(t) )
+    for t in range( 0, 360, step ):
+        x = cx + r * math.sin( math.radians(t) )
+        y = cy + r * math.cos( math.radians(t) )
+        add_edge( points, x0, y0, 0, x, y, 0 )
+        x0 = x
+        y0 = y
+        
 def add_curve( points, x0, y0, x1, y1, x2, y2, x3, y3, step, curve_type ):
-    pass
+    if (curve_type == "hermite"):
+        pass
+    elif(curve_type == "bezier"):
+        pass
 
 def draw_lines( matrix, screen, color ):
     if len( matrix ) < 2:

@@ -8,9 +8,11 @@ def parse_file( fname, points, transform, screen, color ):
     i = 0
     while (i < len(file_contents) ):
         line = file_contents[i]
+        print line
         if ("line" in line):
         	#add_edge( matrix, x0, y0, z0, x1, y1, z1 ):
             args = file_contents[i+1]
+            print args
             args = args.split(" ")
             draw.add_edge(points, args[0], args[1], args[2], args[3], args[4], args[5])
             i += 1
