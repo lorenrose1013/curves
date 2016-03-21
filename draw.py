@@ -6,18 +6,59 @@ def add_circle( points, cx, cy, cz, r, step ):
     t = 0
     x0 = cx + r * math.sin( math.radians(t) )
     y0 = cy + r * math.cos( math.radians(t) )
-    for t in range( 0, 360, step ):
-        x = cx + r * math.sin( math.radians(t) )
-        y = cy + r * math.cos( math.radians(t) )
+    while(t < 360):
+    	rad = math.radians(t) 
+        x = r * math.sin(rad) + cx
+        y = r * math.cos(rad) + cy
         add_edge( points, x0, y0, 0, x, y, 0 )
         x0 = x
         y0 = y
+        t += step
         
 def add_curve( points, x0, y0, x1, y1, x2, y2, x3, y3, step, curve_type ):
+	#for hermit(points, x0, y0, dx0, dy0, x1, y1, dx1, dy1, step, curve_type )
     if (curve_type == "hermite"):
-        pass
+    	dx0 = x2
+    	dy0 = y2
+    	dx1 = x3
+    	dy1 = y3
+        t = 0
+        mx = generate_curve_coefs(x0, x1, dx0, dx1, "hermite")
+        my = generate_curve_coefs(y0, y1, dy0, dy1, "hermite")
+        while(t < 1):
+        	ax = mx[0][0]
+        	bx = mx[0][1]
+        	cx = mx[0][2]
+        	dx = mx[0][3]
+        	ay = my[0][0]
+        	by = my[0][1]
+        	cy = my[0][2]
+        	dy = my[0][3]
+        	x = ((ax) * t ** 3) + ((bx) * t ** 2 ) + ((cx) * t ) + (dx) 
+        	y = (3 * ay * t ** 2 ) + (2 * by * t ) + cy
+        	add_edge(points, x0, y0, 0, x, y, 0)
+        	x0 = x
+        	y0 = y
+        	t += step
     elif(curve_type == "bezier"):
-        pass
+        t = 0
+        mx = generate_curve_coefs(x0, x1, x2, x3, "bezier")
+        my = generate_curve_coefs(y0, y1, y2, y3, "bezier")
+        while(t < 1):
+        	ax = mx[0][0]
+        	bx = mx[0][1]
+        	cx = mx[0][2]
+        	dx = mx[0][3]
+        	ay = my[0][0]
+        	by = my[0][1]
+        	cy = my[0][2]
+        	dy = my[0][3]
+        	x = ((ax) *  t ** 3) + ((bx) * t ** 2 ) + ((cx) * t ) + (dx) 
+        	y = ((ay) *  t ** 3) + ((by) * t ** 2 ) + ((cy) * t ) + (dy) 
+        	add_edge(points, x0, y0, 0, x, y, 0)
+        	x0 = x
+        	y0 = y
+        	t += step
 
 def draw_lines( matrix, screen, color ):
     if len( matrix ) < 2:
